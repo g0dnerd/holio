@@ -15,7 +15,12 @@ pub fn build(b: *std.Build) void {
 
     exe.linkSystemLibrary("GL");
     exe.linkSystemLibrary("glfw");
+    exe.linkSystemLibrary("m");
     exe.linkLibC();
+
+    if (optimize == .ReleaseFast or optimize == .ReleaseSmall) {
+        exe.root_module.addCMacro("NDEBUG", "1");
+    }
 
     b.installArtifact(exe);
 }
